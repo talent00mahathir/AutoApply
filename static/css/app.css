@@ -1,0 +1,159 @@
+/* AutoApply — Modern SaaS Design System Tokens & Aesthetics */
+
+:root {
+  --brand-50: #eef2ff;
+  --brand-100: #e0e7ff;
+  --brand-200: #c7d2fe;
+  --brand-300: #a5b4fc;
+  --brand-400: #818cf8;
+  --brand-500: #6366f1;
+  --brand-600: #4f46e5;
+  --brand-700: #4338ca;
+  --brand-800: #3730a3;
+  --brand-900: #312e81;
+
+  --bg-primary: #f8fafc;
+  --bg-surface: rgba(255, 255, 255, 0.85);
+  --bg-card: #ffffff;
+  --border-subtle: rgba(226, 232, 240, 0.8);
+  --border-focus: #6366f1;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+
+  --gauge-circumference: 251.2;
+}
+
+.dark {
+  --bg-primary: #07090e;
+  --bg-surface: rgba(15, 23, 42, 0.75);
+  --bg-card: #0f172a;
+  --border-subtle: rgba(30, 41, 59, 0.8);
+  --border-focus: #818cf8;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+code, pre, .font-mono {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Glassmorphism Surface */
+.glass-panel {
+  background: var(--bg-surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 1rem;
+}
+
+/* Glassmorphic Navbar */
+.glass-nav {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.dark .glass-nav {
+  background: rgba(10, 15, 30, 0.8);
+  border-bottom: 1px solid rgba(30, 41, 59, 0.7);
+}
+
+/* Subtle Animated Glow */
+.glow-brand {
+  box-shadow: 0 0 35px -5px rgba(99, 102, 241, 0.35);
+}
+
+.glow-subtle {
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dark .glow-subtle {
+  box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.5);
+}
+
+/* Animated Gauge Ring */
+.gauge-circle {
+  transition: stroke-dashoffset 1.2s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.4s ease;
+  stroke-dasharray: 251.2;
+}
+
+/* Modern Spinner */
+.spinner {
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  border-top-color: currentColor;
+  width: 18px;
+  height: 18px;
+  animation: spin 0.75s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Pipeline Stepper Animations */
+.step-pulse {
+  animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-ring {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Smooth Tab Bottom Accent */
+.nav-tab-active {
+  color: var(--brand-600);
+  border-bottom: 2px solid var(--brand-600);
+}
+
+.dark .nav-tab-active {
+  color: var(--brand-400);
+  border-bottom: 2px solid var(--brand-400);
+}
+
+/* Toast Slide Animation */
+.toast-slide-in {
+  animation: toast-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes toast-in {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.7);
+}
