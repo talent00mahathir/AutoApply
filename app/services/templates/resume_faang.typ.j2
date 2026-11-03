@@ -1,0 +1,139 @@
+#set page(
+  paper: "a4",
+  margin: (x: 1.5cm, top: 1.2cm, bottom: 1.2cm)
+)
+#set text(
+  font: ("Segoe UI", "Arial", "Liberation Sans", "Helvetica"),
+  size: 9.5pt,
+  fill: rgb("#111827")
+)
+#set par(justify: false, leading: 0.55em)
+
+// Hyperlink styling
+#show link: it => text(fill: rgb("#1d4ed8"))[#it]
+
+// Section divider
+#let section(title) = {
+  v(0.6em)
+  text(10.5pt, weight: "bold", fill: rgb("#0f172a"))[#upper(title)]
+  v(-0.3em)
+  line(length: 100%, stroke: 0.75pt + rgb("#cbd5e1"))
+  v(0.2em)
+}
+
+// =====================================================================
+// HEADER
+// =====================================================================
+#align(center)[
+  #text(18pt, weight: "bold", fill: rgb("#0f172a"))[{{ name | escape_typst | default("Applicant Name") }}]
+  
+  #v(-0.3em)
+  #text(8.5pt, fill: rgb("#475569"))[
+    {%- if phone %}{{ phone | escape_typst }} | {% endif -%}
+    {%- if email %}#link("mailto:{{ email }}")[{{ email | escape_typst }}] | {% endif -%}
+    {%- if linkedin %}#link("{{ linkedin }}")[LinkedIn] | {% endif -%}
+    {%- if github %}#link("{{ github }}")[GitHub]{% endif -%}
+    {%- if address %} | {{ address | escape_typst }}{% endif -%}
+  ]
+]
+
+// =====================================================================
+// PROFESSIONAL SUMMARY
+// =====================================================================
+{% if summary %}
+#section("Professional Summary")
+{{ summary | escape_typst }}
+{% endif %}
+
+// =====================================================================
+// TECHNICAL SKILLS
+// =====================================================================
+{% if skills %}
+#section("Technical Skills")
+#table(
+  columns: (auto, 1fr),
+  stroke: none,
+  inset: (x: 0pt, y: 2pt),
+  {% for category, skill_list in skills.items() %}
+    [*{{ category | replace("_", " ") | title | escape_typst }}:*], [
+      {%- for s in skill_list -%}
+        {{ s | escape_typst }}{% if not loop.last %}, {% endif %}
+      {%- endfor -%}
+    ],
+  {% endfor %}
+)
+{% endif %}
+
+// =====================================================================
+// TECHNICAL PROJECTS (GOOGLE XYZ FORMULA)
+// =====================================================================
+{% if projects %}
+#section("Technical Projects")
+{% for p in projects %}
+  #grid(
+    columns: (1fr, auto),
+    align: (left, right),
+    [*{{ p.project_name | escape_typst }}* {%- if p.technologies %} [ | 
+      {%- for t in p.technologies -%}
+        {{ t | escape_typst }}{% if not loop.last %}, {% endif %}
+      {%- endfor -%}
+    ] {% endif -%}],
+    {%- if p.link %}[#link("{{ p.link }}")[Code]]{% else %}[]{% endif %}
+  )
+  #v(-0.2em)
+  {% for bullet in p.xyz_bullets %}
+    - {{ bullet | escape_typst }}
+  {% endfor %}
+  #v(0.2em)
+{% endfor %}
+{% endif %}
+
+// =====================================================================
+// EXPERIENCE (IF APPLICABLE)
+// =====================================================================
+{% if experience %}
+#section("Experience")
+{% for exp in experience %}
+  #grid(
+    columns: (1fr, auto),
+    align: (left, right),
+    [*{{ exp.role | escape_typst }}* [ --- {{ exp.company | escape_typst }} ]],
+    text(fill: rgb("#64748b"), size: 9pt)[{{ exp.period | default("") | escape_typst }}]
+  )
+  #v(-0.2em)
+  {% for h in exp.highlights %}
+    - {{ h | escape_typst }}
+  {% endfor %}
+  #v(0.2em)
+{% endfor %}
+{% endif %}
+
+// =====================================================================
+// EDUCATION
+// =====================================================================
+{% if education %}
+#section("Education")
+{% for edu in education %}
+  #grid(
+    columns: (1fr, auto),
+    align: (left, right),
+    [*{{ edu.degree | escape_typst }}* [ --- {{ edu.institution | escape_typst }} ]],
+    text(fill: rgb("#64748b"), size: 9pt)[{{ edu.period | default("") | escape_typst }}]
+  )
+  {%- if edu.grade %}
+    #v(-0.2em)
+    #text(size: 8.5pt, fill: rgb("#64748b"))[Grade / GPA: {{ edu.grade | escape_typst }}]
+  {% endif %}
+  #v(0.2em)
+{% endfor %}
+{% endif %}
+
+// =====================================================================
+// REFERENCES (OPTIONAL)
+// =====================================================================
+{% if references %}
+#section("References")
+{% for ref in references %}
+  - *{{ ref.name | escape_typst }}*, {{ ref.designation | escape_typst }}, {{ ref.institution | escape_typst }} {%- if ref.email %} (#link("mailto:{{ ref.email }}")[{{ ref.email | escape_typst }}]){% endif %}
+{% endfor %}
+{% endif %}
